@@ -45,10 +45,11 @@ import io
 
 # Parámetros
 # ========================================
-file_in = "ising_data.dat" # Nombre del fichero de datos
-file_out = "ising" # Nombre del fichero de salida (sin extensión)
-interval = 100 # Tiempo entre fotogramas en milisegundos
-save_to_file = False # False: muestra la animación por pantalla,
+temp = 0.01
+file_in = "ising_data_T_baja_ordenado.dat" # Nombre del fichero de datos
+file_out = "ising_T_baja_ordenado" # Nombre del fichero de salida (sin extensión)
+interval = 70 # Tiempo entre fotogramas en milisegundos
+save_to_file = True # False: muestra la animación por pantalla,
                      # True: la guarda en un fichero
 dpi = 150 # Calidad del vídeo de salida (dots per inch)
 
@@ -79,6 +80,9 @@ for frame_data_str in data_str.split("\n\n"):
 # ========================================
 # Crea los objetos figure y axis
 fig, ax = plt.subplots()
+
+ax.text(0.5, 1.05, f"Temperatura {temp}", transform=ax.transAxes, ha="center", size=14, weight='bold')
+
 
 # Define el rango de los ejes
 ax.axis("off")  # No muestra los ejes

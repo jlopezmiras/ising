@@ -12,10 +12,8 @@ def ising(temp,espines,steps,fout=None):
     N = np.shape(espines)[0]
 
     # Vector que almacena la configuración de espines en todos los pasos montecarlo
-    Stot = np.empty((steps,N,N))
-
-    # Abro archivo de texto
-    #f = open(fout, "w")
+    Stot = np.empty((steps+1,N,N))
+    Stot[0] = espines
 
     for pasoMc in range(steps):
         # Un paso Monte Carlo son N² iteraciones
@@ -29,36 +27,92 @@ def ising(temp,espines,steps,fout=None):
                 deltaE = 2*espines[n,m]*(espines[(n+1)%N,m] + espines[(n-1)%N,m] + espines[n,(m+1)%N] + espines[n,(m-1)%N])
 
             p = min(1,math.exp(-deltaE/temp))
-            aleatorio = np.random.random()
-            if aleatorio<p:
+            if np.random.random()<p:
                 espines[n,m] = -espines[n,m]
 
-        Stot[pasoMc] = espines
-        #np.savetxt(f,S,delimiter=', ')
-        #f.write('\n')
+        Stot[pasoMc+1] = espines
         
     return Stot
 
 
+# Parámetros iniciales
 
-espines = np.random.choice([-1,1],size=(64,64))
+N = 128
+steps = 300
 
-T = 0.5
-steps = 200
 
-fout = "ising_data.dat"
+espines_rd = np.random.choice([-1,1],size=(N,N))
+espines_up = np.full((N,N),1)
+espines_down = np.full((N,N),-1)
 
-start = timeit.default_timer()
 
-Stot = ising(0.1,espines,200)
-print("A escribir!")
+fout = "ising_data_T_baja_desordenado.dat"
+temp = 0.01
+Stot = ising(temp, espines_rd, steps)
 
 f = open(fout, "w")
 for i in range(len(Stot)):
-    np.savetxt(f,Stot[i],delimiter=', ')
+    np.savetxt(f,Stot[i].astype(int),fmt='%s',delimiter=', ')
     f.write('\n')
 f.close()
 
-stop = timeit.default_timer()
-print("Time:", str(stop-start))
+
+
+fout = "ising_data_T_baja_ordenado.dat"
+temp = 0.01
+Stot = ising(temp, espines_up, steps)
+
+f = open(fout, "w")
+for i in range(len(Stot)):
+    np.savetxt(f,Stot[i].astype(int),fmt='%s',delimiter=', ')
+    f.write('\n')
+f.close()
+
+
+
+fout = "ising_data_T_media_desordenado.dat"
+temp = 1.5
+Stot = ising(temp, espines_rd, steps)
+
+f = open(fout, "w")
+for i in range(len(Stot)):
+    np.savetxt(f,Stot[i].astype(int),fmt='%s',delimiter=', ')
+    f.write('\n')
+f.close()
+
+
+
+fout = "ising_data_T_media_ordenado.dat"
+temp = 1.5
+Stot = ising(temp, espines_up, steps)
+
+f = open(fout, "w")
+for i in range(len(Stot)):
+    np.savetxt(f,Stot[i].astype(int),fmt='%s',delimiter=', ')
+    f.write('\n')
+f.close()
+
+
+
+fout = "ising_data_T_alta_desordenado.dat"
+temp = 4.8
+Stot = ising(temp, espines_rd, steps)
+
+f = open(fout, "w")
+for i in range(len(Stot)):
+    np.savetxt(f,Stot[i].astype(int),fmt='%s',delimiter=', ')
+    f.write('\n')
+f.close()
+
+
+
+fout = "ising_data_T_alta_ordenado.dat"
+temp = 4.8
+Stot = ising(temp, espines_up, steps)
+
+f = open(fout, "w")
+for i in range(len(Stot)):
+    np.savetxt(f,Stot[i].astype(int),fmt='%s',delimiter=', ')
+    f.write('\n')
+f.close()
 
