@@ -71,7 +71,7 @@ f.close()
 
 
 fout = "ising_data_T_media_desordenado.dat"
-temp = 1.5
+temp = 2.5
 Stot = ising(temp, espines_rd, steps)
 
 f = open(fout, "w")
@@ -83,7 +83,7 @@ f.close()
 
 
 fout = "ising_data_T_media_ordenado.dat"
-temp = 1.5
+temp = 2.5
 Stot = ising(temp, espines_up, steps)
 
 f = open(fout, "w")
